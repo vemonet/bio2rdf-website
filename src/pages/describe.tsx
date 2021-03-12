@@ -16,6 +16,7 @@ import Cytoscape from 'cytoscape';
 import Cola from 'cytoscape-cola';
 
 import LinkDescribe from "../components/LinkDescribe";
+import Config from "../components/Config";
 // import Context from "../components/Context";
 
 Cytoscape.use(Cola);
@@ -70,7 +71,7 @@ export default function Describe() {
 
   const [state, setState] = React.useState({
     describe_uri: '',
-    describe_endpoint: '',
+    // describe_endpoint: '',
     describe_results: [],
     search_results: [],
     graph_data: {nodes: [], edges: []},
@@ -97,6 +98,7 @@ export default function Describe() {
   // Build SPARQL query to describe a URI
   function getDescribeQuery(uri_to_describe: any) {
     var describe_query;
+    const query_limit = 50;
     if(uri_to_describe.startsWith('node')) {
       // Case it is a blank node in Ontotext GraphDB
       // TODO: improve it
@@ -105,7 +107,7 @@ export default function Describe() {
           GRAPH ?graph {
             ` + uri_to_describe + ` ?predicate ?object .
           }
-        } LIMIT 100`
+        } LIMIT ` + query_limit
     } else {
       // Regular URI
       uri_to_describe = "<" + uri_to_describe + ">"
@@ -117,7 +119,7 @@ export default function Describe() {
           ?subject ?predicate ?object .
           BIND(` + uri_to_describe + ` AS ?graph)
         }
-      } LIMIT 100`
+      } LIMIT ` + query_limit
       // if (this.context.triplestore.graph_uri_resolution === "classes") {
       //   // TODO: Add DISTINCT ? Might slow the query down in some cases
       //   graphQuery = `SELECT * {
@@ -136,21 +138,21 @@ export default function Describe() {
               ` + uri_to_describe + ` ?predicate ?object .
               BIND(` + uri_to_describe + ` AS ?subject)
             }
-          } LIMIT 100
+          } LIMIT ` + query_limit + `
         } UNION {
           SELECT * {
             GRAPH ?graph {
               ?subject ?predicate ` + uri_to_describe + ` .
               BIND(` + uri_to_describe + ` AS ?object)
             }
-          } LIMIT 100
+          } LIMIT ` + query_limit + `
         } UNION {
           SELECT * {
             GRAPH ?graph {
               ?subject ` + uri_to_describe + ` ?object .
               BIND(` + uri_to_describe + ` AS ?predicate)
             }
-          } LIMIT 100
+          } LIMIT ` + query_limit + `
         } UNION {
           ` + graphQuery + `
         }
@@ -230,7 +232,7 @@ export default function Describe() {
     const params = new URLSearchParams(location.search + location.hash);
 
     let describe_uri = params.get('uri');
-    let describe_endpoint = params.get('endpoint');
+    let describe_endpoint = Config.sparql_endpoint;
 
     // Get sparql_endpoint from cookie intothegraphSettings
     if (!describe_endpoint) {
@@ -329,7 +331,7 @@ export default function Describe() {
         console.log(graph_nodes_array);
         console.log(graph_edges);
         updateState({
-          graph_data: { nodes: graph_nodes_array, edges: graph_edges },
+          // graph_data: { nodes: graph_nodes_array, edges: graph_edges },
           cytoscape_elements: cytoscape_elements
         })
       })
@@ -384,10 +386,6 @@ export default function Describe() {
 
   return(
     <Container className='mainContainer'>
-      <Typography variant="body2" className={classes.margin}>
-      {/* <Typography variant="body2" style={{textAlign: 'center', marginBottom: '20px'}}> */}
-        {state.describe_endpoint}
-      </Typography>
       <Typography variant="h5" className={classes.margin}>
         {state.describe_uri}
       </Typography>
@@ -474,49 +472,6 @@ export default function Describe() {
         </Paper>
       )}
 
-      {/* Iterate a JSON object: */}
-      {/* {Object.keys(state.repositories_hash).map(function(repo: any){ ... })  */}
-
-      {/* image: {iconImage} */}
-      {/* Color: https://perfectgraph-5c619.web.app/?path=/story/components-components--view */}
-      {/* <Graph
-        style={{ width: '100%', height: 250 }}
-        nodes={[
-          {
-            id: 1,
-            position: { x: 10, y: 10 },
-            data: {
-              name: 'Institute of Data Science',
-              // image: 'https://raw.githubusercontent.com/MaastrichtU-IDS/into-the-graph/main/assets/icon.png',
-              story: `Develop responsible data science by design to accelerate discovery across all sectors of society.`
-              // color: 'grey'
-            }
-          },
-          {
-            id: 2,
-            position: { x: 600, y: 10 },
-            data: {
-              name: 'Maastricht University',
-              // image: 'https://raw.githubusercontent.com/MaastrichtU-IDS/into-the-graph/main/assets/icon.png',
-              story: `The most international university in the Netherlands, stands out for its innovative education model, and multidisciplinary approach to research and education.`
-              // color: 'grey'
-            }
-          },
-        ]}
-        edges={[
-          { id: 51, source: 1, target: 2 }
-        ]}
-        renderNode={({ item: { data } }) => (
-        <Graph.ProfileTemplate
-          name={data.name}
-          // image={data.image}
-          story={data.story}
-          // color= 'grey'
-          // style={{ backgroundColor: '#eceff1' }}
-        />
-      )}
-      /> */}
-
       {state.graph_data.nodes.length > 0 && (<>
         <Typography variant="h5" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
           {/* <a href='https://perfectgraph-5c619.web.app/' className={classes.link} > */}
@@ -569,11 +524,9 @@ export default function Describe() {
         </Paper>
       </> )}
 
-      {state.graph_data.nodes.length > 0 && (<>
+      {state.cytoscape_elements.length > 0 && (<>
         <Typography variant="h5" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
-          {/* <a href='https://perfectgraph-5c619.web.app/' className={classes.link} > */}
           Cytoscape JS visualization
-          {/* </a> */}
         </Typography>
         <Paper elevation={4} className={classes.paperPadding} style={{ height: '100vh', textAlign: 'left' }}>
           <CytoscapeComponent elements={state.cytoscape_elements} layout={cytoscape_layout}

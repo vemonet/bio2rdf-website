@@ -121,13 +121,13 @@ export default function NavBar() {
       <Toolbar variant='dense'>
         <Link to="/" className={classes.linkButton}>
           {/* <img src={iconImage} style={{height: '2em', width: '2em', marginRight: '10px'}} alt="Logo" /> */}
-          <Tooltip title='Into the Graph homepage'>
+          <Tooltip title='Bio2RDF homepage'>
             <Button className={classes.menuButton}>
-              <ExploreIcon />&nbsp;Into the graph
+              <ExploreIcon />&nbsp;Bio2RDF
             </Button>
           </Tooltip>  
         </Link>
-        <Link to="/describe?uri=https://identifiers.org/drugbank:DB00002" className={classes.linkButton}>
+        <Link to="/describe?uri=http://bio2rdf.org/drugbank:DB00002" className={classes.linkButton}>
           <Tooltip title='Describe an URI in a SPARQL endpoint'>
             <Button className={classes.menuButton}>
               <SearchIcon />&nbsp;Describe URI

@@ -20,7 +20,8 @@ export default function App() {
   const theme = createMuiTheme({
     palette: {
       // Blue and orange
-      primary: { light: '#63a4ff', main: '#1976d2', dark: '#004ba0' },
+      // Bio2RDF blue: 174E74 and orange: E77817
+      primary: { light: '#63a4ff', main: '#2196f3', dark: '#004ba0' },
       secondary: { light: '#ffa040', main: '#ff6f00', dark: '#c43e00' },
       // primary: { light: blue[50], main: blue[700], dark: blue[900] },
       // default: { light: '#fafafa', main: '#eceff1', dark: grey[600] }
@@ -37,7 +38,7 @@ export default function App() {
   return (
     <Context.Provider value={[context, setContext]}>
       <MuiThemeProvider theme={theme}>
-        <Router basename="/into-the-graph/">
+        <Router basename="/">
           <View style={{height: '100%', backgroundColor: '#eceff1'}}>
             <NavBar />
 

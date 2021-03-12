@@ -80,35 +80,24 @@ export default function About() {
               }
             </IconButton>
           }
-          title="🧭 Into the Graph"
-          subheader={"Linked open data browser using SPARQL endpoints"}
+          title="Bio2RDF"
+          subheader={"Linked Data for the Life Sciences"}
         />
 
 
         <Collapse in={state.show_info_card} timeout="auto" unmountOnExit>
-          <CardContent>
+          <CardContent style={{ textAlign: 'left' }}>
 
             {/* <Paper elevation={4} className={classes.paperPadding}> */}
             <Typography variant="body1">
-              Provide the <b>URI to describe</b>, and the <b>SPARQL endpoint</b> queried in the URL parameters, such as:
+              Bio2RDF is an open-source project that uses Semantic Web technologies to build and provide the largest network of Linked Data for the Life Sciences. Bio2RDF defines a set of simple conventions to create RDF(S) compatible Linked Data from a diverse set of heterogeneously formatted sources obtained from multiple data providers. 
             </Typography>
 
-            <Typography variant="h5">
-              <Link to={{
-                pathname: '/describe',
-                search: '?uri=https://identifiers.org/drugbank:DB00002&endpoint=https://graphdb.dumontierlab.com/repositories/ncats-red-kg',
-                // search: '?uri=http://bio2rdf.org/clinicaltrials:NCT00209495&endpoint=https://bio2rdf.org/sparql',
-              }} className={classes.link}>
-                /describe?uri=https://identifiers.org/drugbank:DB00002&endpoint=https://graphdb.dumontierlab.com/repositories/ncats-red-kg
-              </Link>
-            </Typography>
-            {/* </Paper> */}
+            {/* <Typography variant="body1">
+              <a href='https://github.com/micheldumontier/torres-api-platform/' className={classes.link} target='_blank' rel="noopener noreferrer">TORRES API platform</a> to store HCLS descriptive metadata for your dataset
+            </Typography> */}
 
-            <Typography variant="body1" style={{textAlign: 'left', marginTop: theme.spacing(5) }}>
-              <b>Into the Graph</b> provides a simple RDF web browser that just need a SPARQL endpoint URL to resolve URIs, and explore the available linked data. It features:
-            </Typography>
-
-            <List>
+            {/* <List>
               <ListItem>
                 <ListItemAvatar>
                   <Avatar>
@@ -149,22 +138,7 @@ export default function About() {
                   Work in progress: insights about the content of the triplestore and its different graphs, using precomputed HCLS descriptives statistics
                 </ListItemText>
               </ListItem>
-            </List>
-
-            <Typography variant="body1" style={{textAlign: 'left'}}>
-              Other relevant libraries:
-            </Typography>
-            <ul style={{textAlign: 'left'}}>
-              <li><Typography variant="body1">
-                <a href='https://github.com/micheldumontier/torres-api-platform/' className={classes.link} target='_blank' rel="noopener noreferrer">TORRES API platform</a> to store HCLS descriptive metadata for your dataset
-              </Typography></li>
-              <li><Typography variant="body1">
-                <a href='https://github.com/MaastrichtU-IDS/fair-metadata' className={classes.link} target='_blank' rel="noopener noreferrer">FAIR metadata</a> python lib: to generate HCLS descriptive metadata for your dataset
-              </Typography></li>
-              <li><Typography variant="body1">
-                <a href='https://github.com/MaastrichtU-IDS/d2s-project-template/tree/master/datasets/preppi' className={classes.link} target='_blank' rel="noopener noreferrer">Data2Services workflows</a> to generate RDF knowledge graphs from structured data using RML (RDF Mapping Language)
-              </Typography></li>
-            </ul>
+            </List> */}
 
           </CardContent>
         </Collapse>

@@ -21,6 +21,7 @@ import Cola from 'cytoscape-cola';
 
 import LinkDescribe from '../components/LinkDescribe';
 import About from './About';
+import Config from "../components/Config";
 
 // import { data } from "@solid/query-ldflex";
 // import data from "@solid/query-ldflex";
@@ -80,7 +81,7 @@ export default function Homepage() {
   
   const [state, setState] = React.useState({
     isLoading: true,
-    describe_endpoint: '',
+    // describe_endpoint: '',
     webid: '',
     projects_list: [],
     search: '',
@@ -143,21 +144,7 @@ export default function Homepage() {
   // Run at start of the page
   React.useEffect(() => {
 
-    let describe_endpoint = '';
-    // Get sparql_endpoint from cookie intothegraphSettings
-    if (!describe_endpoint) {
-      const localStorageConfig = localStorage.getItem("intothegraphSettings");
-      if (localStorageConfig) {
-        let configState: any = JSON.parse(localStorageConfig);
-        describe_endpoint = configState.sparql_endpoint;
-      }
-    }
-    if (!describe_endpoint) {
-      // If no endpoint found in localStorage
-      describe_endpoint = 'https://graphdb.dumontierlab.com/repositories/ncats-red-kg';
-      // describe_endpoint = 'https://bio2rdf.org/sparql';
-    }
-    updateState({ describe_endpoint: describe_endpoint });
+    let describe_endpoint = Config.sparql_endpoint;
 
     Yasgui.defaults.requestConfig.endpoint = describe_endpoint;
     // @ts-ignore If endpoint and query provided
@@ -486,7 +473,7 @@ export default function Homepage() {
       {/* Display a datatable with subject, predicate, object, graph retrieved */}
       {Object.keys(state.get_all_graphs_results).length > 0 && (<>
         <Typography variant="h5" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
-        <a href={state.describe_endpoint} className={classes.link} >{state.describe_endpoint}</a> endpoint overview
+        <a href={Config.sparql_endpoint} className={classes.link} >{Config.sparql_endpoint}</a> endpoint overview
         </Typography>
         <Paper elevation={4} className={classes.paperPadding}>
           <table id='datatableAllGraphs' style={{ wordBreak: 'break-all' }}>
@@ -511,7 +498,7 @@ export default function Homepage() {
 
         {Object.keys(state.hcls_overview_results).length > 0 && (<>
         <Typography variant="h5" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
-          Endpoint <b>descriptive metadata</b> (<a href={state.describe_endpoint} className={classes.link}>HCLS</a>)
+          Endpoint <b>descriptive metadata</b> (<a href={Config.sparql_endpoint} className={classes.link}>HCLS</a>)
         </Typography>
         <Paper elevation={4} className={classes.paperPadding}>
           <table id='datatableHclsOverview' style={{ wordBreak: 'break-all' }}>
@@ -551,7 +538,7 @@ export default function Homepage() {
 
           {state.graph_data.nodes.length > 0 && (<>
             <Typography variant="h5" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
-              <b>Entities-relations</b> metadata (<a href={state.describe_endpoint} className={classes.link}>HCLS</a>)
+              <b>Entities-relations</b> metadata (<a href={Config.sparql_endpoint} className={classes.link}>HCLS</a>)
             </Typography>
             <Typography variant="body1" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
               <a href='https://perfectgraph-5c619.web.app/' className={classes.link} target='_blank' rel="noopener noreferrer">
