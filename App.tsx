@@ -38,7 +38,7 @@ export default function App() {
   return (
     <Context.Provider value={[context, setContext]}>
       <MuiThemeProvider theme={theme}>
-        <Router basename="/">
+        <Router basename="/bio2rdf-website/">
           <View style={{height: '100%', backgroundColor: '#eceff1'}}>
             <NavBar />
 
