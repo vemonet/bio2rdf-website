@@ -9,6 +9,10 @@
     "resolveJsonModule": true,
     "noImplicitAny": false,
     "noImplicitThis": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "types": [
+      "node",
+      "webpack-env"
+    ]
   }
 }

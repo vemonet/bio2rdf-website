@@ -1,6 +1,7 @@
 
 export default {
-    sparql_endpoint: 'https://bio2rdf.org/sparql',
+    // sparql_endpoint: 'https://bio2rdf.org/sparql',
+    sparql_endpoint: 'https://bio2rdf.137.120.31.102.nip.io/sparql',
     website_url: 'https://bio2rdf.org/',
     base_uri: 'http://bio2rdf.org/',
     prefix_registry: {

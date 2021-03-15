@@ -1,0 +1,31 @@
+#+ summary: Returns a graph containing the number of triples for a specified graph
+#+ tags:
+#+   - statistics
+
+PREFIX void: <http://rdfs.org/ns/void#>
+
+CONSTRUCT {
+  ?_graph_iri a void:Dataset ;
+    void:triples ?triples .
+} 
+WHERE
+{
+    GRAPH ?_graph_iri {
+        SELECT (COUNT(*) AS ?triples) 
+        { 
+            ?s ?p ?o  
+        } 
+    }
+}
+---
+#+ summary: Gets the number of triples for a VOID Dataset description
+#+ tags:
+#+   - statistics
+
+PREFIX void: <http://rdfs.org/ns/void#>
+
+SELECT ?triples
+{
+    ?_graph_iri a void:Dataset ;
+     void:triples ?triples .
+}

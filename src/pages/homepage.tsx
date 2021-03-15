@@ -23,15 +23,8 @@ import LinkDescribe from '../components/LinkDescribe';
 import About from './About';
 import Config from "../components/Config";
 
-// import { data } from "@solid/query-ldflex";
-// import data from "@solid/query-ldflex";
-// import { LoggedIn, LoggedOut, Value, useWebId } from '@solid/react';
-// import { Like } from '@solid/react';
-// import SolidStar from "./SolidStar";
-
-// import {newEngine} from '@comunica/actor-init-sparql';
-// import {ActorInitSparql} from '@comunica/actor-init-sparql/lib/ActorInitSparql-browser';
-// import {IQueryOptions, newEngineDynamicArged} from "@comunica/actor-init-sparql/lib/QueryDynamic";
+// @ts-ignore 
+import SparqlQueries from '../../assets/queries.rq';
 
 Cytoscape.use(Cola);
 
@@ -103,36 +96,6 @@ export default function Homepage() {
     setState(stateRef.current);
   }, [setState]);
 
-  // Check SOLID pod for a user preferences file
-  // https://github.com/solid/react-components/blob/master/demo/app.jsx
-  // https://solid.github.io/react-components/
-
-  // useLocation hook to get SOLID WebID
-  // let solid_webid = useWebId();
-
-  // function createEmptyDocument() {
-  //   // const location = "/public/into-the-graph/preferences.ttl";
-  //   const webId = useWebId();
-  //   // console.log("webId!!");
-  //   // console.log(webId);
-  //   // return data[webId + location].put();
-  // }
-
-  // async function WebIdStatus() {
-  //   updateState({webid: useWebId()})
-  //   // const webId = useWebId();
-  //   // .replace("profile/card#me", "public/into-the-graph/preferences.ttl");
-  //   // const location = webId.replace("profile/card#me", "public/into-the-graph/preferences.ttl");
-  //   // return data[webId + location].put();
-  //   return <span>Preferences stored at {webId}.</span>;
-  // }
-
-  // TODO: fix to use webid hook
-  // async function createEmptyDocument(location: any) {
-  //   // webId.replace("profile/card#me", "public/into-the-graph/preferences.ttl");
-  //   return data[location].put();
-  // }
-  
   function displayTableCell(stringToDisplay: any) {
     if (stringToDisplay) {
       return stringToDisplay.value;
@@ -141,10 +104,19 @@ export default function Homepage() {
     }
   }
 
+
   // Run at start of the page
   React.useEffect(() => {
 
     let describe_endpoint = Config.sparql_endpoint;
+
+    // Get SPARQL queries
+    fetch(SparqlQueries)
+      .then((r) => r.text())
+      .then(text  => {
+        console.log("SparqlQueries");
+        console.log(text);
+      }) 
 
     Yasgui.defaults.requestConfig.endpoint = describe_endpoint;
     // @ts-ignore If endpoint and query provided
@@ -422,49 +394,6 @@ export default function Homepage() {
 
       <About />
 
-      {/* <Paper elevation={4} className={classes.paperPadding}>
-        <Typography variant="body1" className={classes.margin}>
-          Provide the <b>URI to describe</b>, and the <b>SPARQL endpoint</b> queried in the URL parameters, such as:
-        </Typography>
-
-        <Typography variant="h5" className={classes.margin}>
-          <Link to={{
-            pathname: '/describe',
-            search: '?uri=https://identifiers.org/drugbank:DB00002&endpoint=https://graphdb.dumontierlab.com/repositories/ncats-red-kg',
-            // search: '?uri=http://bio2rdf.org/clinicaltrials:NCT00209495&endpoint=https://bio2rdf.org/sparql',
-          }} className={classes.link}>
-            /describe?uri=https://identifiers.org/drugbank:DB00002&endpoint=https://graphdb.dumontierlab.com/repositories/ncats-red-kg
-          </Link>
-        </Typography>
-      </Paper>
-
-      <Typography variant="body1" className={classes.margin} style={{textAlign: 'left', marginTop: theme.spacing(5) }}>
-        <b>Into the Graph</b> provides a simple RDF web browser that just need a SPARQL endpoint URL to resolve URIs, and explore the available linked data.
-      </Typography>
-      
-      <Typography variant="body1" className={classes.margin} style={{ textAlign: 'left' }}>
-        This linked data browser features:
-        <br/>🔎 A web-based UI to browse any SPARQL endpoints content easily
-        <br/>🕸️ Native support for graphs (nquads)
-        <br/>🏗️ Work in progress: visualize and browse concepts using <a href='https://perfectgraph-5c619.web.app' target='_blank' rel="noopener noreferrer"><code>perfect-graph</code></a>
-        <br/>🚧 Work in progress: insights about the content of the triplestore and its different graphs, using precomputed HCLS descriptives statistics
-      </Typography>
-
-      <Typography variant="body1" className={classes.margin} style={{textAlign: 'left'}}>
-        Other relevant libraries:
-      </Typography>
-      <ul style={{textAlign: 'left'}}>
-        <li><Typography variant="body1">
-          <a href='https://github.com/micheldumontier/torres-api-platform/' className={classes.link} target='_blank' rel="noopener noreferrer">TORRES API platform</a> to store HCLS descriptive metadata for your dataset
-        </Typography></li>
-        <li><Typography variant="body1">
-          <a href='https://github.com/MaastrichtU-IDS/fair-metadata' className={classes.link} target='_blank' rel="noopener noreferrer">FAIR metadata</a> python lib: to generate HCLS descriptive metadata for your dataset
-        </Typography></li>
-        <li><Typography variant="body1">
-          <a href='https://github.com/MaastrichtU-IDS/d2s-project-template/tree/master/datasets/preppi' className={classes.link} target='_blank' rel="noopener noreferrer">Data2Services workflows</a> to generate RDF knowledge graphs from structured data using RML (RDF Mapping Language)
-        </Typography></li>
-      </ul> */}
-
       {/* Display YASGUI */}
       <Paper elevation={4} className={classes.paperPadding} style={{ textAlign: 'left', marginTop: theme.spacing(4) }}>
         <div id="yasguiDiv"></div>
@@ -549,6 +478,7 @@ export default function Homepage() {
               <ApplicationProvider>
                 <Graph
                   style={{ width: '100%', height: 800 }}
+                  // @ts-ignore
                   config={{ layout: Graph.Layouts.euler }}
                   nodes={state.graph_data.nodes}
                   edges={state.graph_data.edges}
@@ -675,20 +605,6 @@ export default function Homepage() {
           </>)}
 
         </Paper>
-
-      {/* <LoggedIn>
-        <Typography style={{textAlign: 'center', marginBottom: '20px'}}>
-          Welcome <Value src="user.name"/>!
-        </Typography>
-        <Typography style={{textAlign: 'center', marginBottom: '20px'}}>
-          Soon you will be able to use your SOLID account! 
-        </Typography>
-      </LoggedIn>
-      <LoggedOut>
-        <Typography style={{textAlign: 'center', marginBottom: '20px'}}>
-          Welcome
-        </Typography>
-      </LoggedOut> */}
 
     </Container>
   )
