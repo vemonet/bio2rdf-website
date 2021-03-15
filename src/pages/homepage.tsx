@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Typography, Container, Paper, CircularProgress } from "@material-ui/core";
-import axios from 'axios';
+import { Typography, Container, Paper, CircularProgress, List, ListItem, ListItemAvatar, Avatar, ListItemText, IconButton, Button, Card } from "@material-ui/core";
+import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 
+import axios from 'axios';
 // Import jquery datatables.net
 import 'datatables.net-dt/css/jquery.dataTables.min.css'
 const $ = require('jquery');
@@ -59,6 +60,11 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 2),
     margin: theme.spacing(2, 0),
   },
+  paperQuery: {
+    padding: theme.spacing(2, 2),
+    margin: theme.spacing(2, 0),
+    "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
+  },
   cardSubtitle: {
     fontSize: 14,
     marginTop: 8,
@@ -75,8 +81,8 @@ export default function Homepage() {
   const [state, setState] = React.useState({
     isLoading: true,
     // describe_endpoint: '',
-    webid: '',
-    projects_list: [],
+    sparql_queries: [],
+    yasgui: {},
     search: '',
     get_all_graphs_results: [],
     hcls_overview_results: [],
@@ -109,13 +115,41 @@ export default function Homepage() {
   React.useEffect(() => {
 
     let describe_endpoint = Config.sparql_endpoint;
+    let sparql_queries: any = []
 
     // Get SPARQL queries
     fetch(SparqlQueries)
       .then((r) => r.text())
       .then(text  => {
         console.log("SparqlQueries");
-        console.log(text);
+        // console.log(text);
+        const queries_array = text.split('---')
+        queries_array.forEach((query_string: any) => {
+          // console.log(query_string);
+          // yaml_string = "\n".join([row.lstrip('#+') for row in sparql_query.split('\n') if row.startswith('#+')])
+          let query_summary;
+          let query_params: any = [];
+          let query_no_comments = query_string;
+          // Parse basic grlc/BASIL metadata in SPARQL queries
+          query_string.split('\n').forEach((line: any) => {
+            if (line.startsWith('#+ summary: ')) {
+              query_summary = line.replace('#+ summary: ', '')
+            }
+            if (line.startsWith('#+ ')) {
+              query_no_comments = query_no_comments.replace(line + '\n', '')
+              query_params.push(line.replace('#+ ', ''))
+            }
+          })
+          sparql_queries.push({
+            'summary': query_summary,
+            'params': query_params.join('\n'),
+            'query': query_no_comments,
+            'full_query': query_string,
+            // 'tags': query_summary
+          })
+        })
+        console.log(sparql_queries);
+        updateState( { sparql_queries: sparql_queries } );
       }) 
 
     Yasgui.defaults.requestConfig.endpoint = describe_endpoint;
@@ -124,6 +158,7 @@ export default function Homepage() {
       requestConfig: { endpoint: describe_endpoint },
       copyEndpointOnNewTab: true,
     });
+    updateState( { yasgui: yasgui } );
     // yasgui.addTab(
     //   true, // set as active tab
     //   { ...Yasgui.Tab.getDefaults(), yasqe: { value: props.query }}
@@ -389,6 +424,15 @@ export default function Homepage() {
   //   idealEdgeLength: function( edge: any ){ return 300; },
   // };
 
+  function loadSparqlQuery(query_string: any) {
+    const yasgui: any = state.yasgui
+    yasgui.addTab(
+      true, // set as active tab
+      { ...Yasgui.Tab.getDefaults(), yasqe: { value: query_string }}
+    )
+    updateState({ yasgui: yasgui })
+  }
+
   return(
     <Container className='mainContainer'>
 
@@ -399,10 +443,28 @@ export default function Homepage() {
         <div id="yasguiDiv"></div>
       </Paper>
 
+      <Typography variant="h5" style={{ textAlign: 'center', marginTop: theme.spacing(6), marginBottom: theme.spacing(2) }} >
+        SPARQL queries for Bio2RDF
+      </Typography>
+      {state.sparql_queries.map((query: any, key: number) => {
+        // return <Tooltip title={displayDescription(row.name, row.description)} key={key}>
+        return <div onClick={ () => { loadSparqlQuery(query.query) }}>
+            <Paper elevation={2} className={classes.paperQuery} style={{ cursor: 'pointer', textAlign: 'center' }}>
+              {/* <Button variant="contained" color="primary" onClick={ () => { console.log('test!!') }}>
+                Run query
+              </Button> */}
+              <Typography variant="body1" >
+                {query.summary}
+              </Typography>
+            </Paper>
+          </div>
+        {/* </Tooltip>; */}
+      })}
+
       {/* Display a datatable with subject, predicate, object, graph retrieved */}
       {Object.keys(state.get_all_graphs_results).length > 0 && (<>
         <Typography variant="h5" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
-        <a href={Config.sparql_endpoint} className={classes.link} >{Config.sparql_endpoint}</a> endpoint overview
+          Graphs overview
         </Typography>
         <Paper elevation={4} className={classes.paperPadding}>
           <table id='datatableAllGraphs' style={{ wordBreak: 'break-all' }}>
