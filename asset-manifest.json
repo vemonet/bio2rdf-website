@@ -1,7 +1,7 @@
 {
   "files": {
-    "app.js": "/bio2rdf-website/static/js/app.cd32a062.chunk.js",
-    "app.js.map": "/bio2rdf-website/static/js/app.cd32a062.chunk.js.map",
+    "app.js": "/bio2rdf-website/static/js/app.d3ed38bb.chunk.js",
+    "app.js.map": "/bio2rdf-website/static/js/app.d3ed38bb.chunk.js.map",
     "runtime~app.js": "/bio2rdf-website/static/js/runtime~app.e43caa93.js",
     "runtime~app.js.map": "/bio2rdf-website/static/js/runtime~app.e43caa93.js.map",
     "static/js/2.7facd3a1.chunk.js": "/bio2rdf-website/static/js/2.7facd3a1.chunk.js",
@@ -19,6 +19,6 @@
   "entrypoints": [
     "static/js/runtime~app.e43caa93.js",
     "static/js/2.7facd3a1.chunk.js",
-    "static/js/app.cd32a062.chunk.js"
+    "static/js/app.d3ed38bb.chunk.js"
   ]
 }

@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "2574655854f9499750b1",
-    "url": "/bio2rdf-website/static/js/app.cd32a062.chunk.js"
+    "revision": "ed904b1c2a105c3f2f4a",
+    "url": "/bio2rdf-website/static/js/app.d3ed38bb.chunk.js"
   },
   {
     "revision": "678d4c47f8e5bc167012",
@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/bio2rdf-website/static/media/queries.2c04ca13.rq"
   },
   {
-    "revision": "5c94d1ddfefb526c3d8fcc0412fe8721",
+    "revision": "aad767b88d31c3cee8e67eff537c9360",
     "url": "/bio2rdf-website/index.html"
   },
   {

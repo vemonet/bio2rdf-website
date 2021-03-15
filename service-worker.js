@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/bio2rdf-website/precache-manifest.6566f9037b6e8dd74080642f16241a77.js"
+  "/bio2rdf-website/precache-manifest.692b7b488bca39a5841769e3fa48840b.js"
 );
 
 workbox.skipWaiting();
