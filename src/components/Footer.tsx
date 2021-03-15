@@ -69,7 +69,7 @@ export default function Footer() {
           <Typography variant="body2" >
             This website is licensed under the&nbsp;
             <a className={classes.whiteLink} target="_blank" rel="noopener noreferrer"
-            href="https://github.com/MaastrichtU-IDS/into-the-graph/blob/main/LICENSE">
+            href="https://github.com/vemonet/bio2rdf-website/blob/main/LICENSE">
               MIT license
             </a>
             <br/>License of the displayed data is defined by the SPARQL endpoint provider

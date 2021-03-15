@@ -173,9 +173,9 @@ export default function NavBar() {
           </Popper>
           {/* </div> */}
         {/* </ClickAwayListener> */}
-        <Tooltip  title='Go to https://github.com/MaastrichtU-IDS/into-the-graph'>
+        <Tooltip  title='Go to https://github.com/vemonet/bio2rdf-website'>
           <Button className={classes.menuButton} target="_blank"
-          href="https://github.com/MaastrichtU-IDS/into-the-graph" rel="noopener noreferrer">
+          href="https://github.com/vemonet/bio2rdf-website" rel="noopener noreferrer">
             <GitHubIcon />
           </Button>
         </Tooltip>

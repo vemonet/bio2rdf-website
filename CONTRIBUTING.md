@@ -1,16 +1,16 @@
 # Contributing
 
-When contributing to this repository, please first discuss the change you wish to make via an [issue](https://github.com/MaastrichtU-IDS/into-the-graph/issues) if applicable.
+When contributing to this repository, please first discuss the change you wish to make via an [issue](https://github.com/vemonet/bio2rdf-website/issues) if applicable.
 
-If you are part of the [MaastrichtU-IDS organization on GitHub](https://github.com/MaastrichtU-IDS) you can directly create a branch in this repository. Otherwise you will need to first [fork this repository](https://github.com/MaastrichtU-IDS/into-the-graph/fork).
+If you are part of the [MaastrichtU-IDS organization on GitHub](https://github.com/MaastrichtU-IDS) you can directly create a branch in this repository. Otherwise you will need to first [fork this repository](https://github.com/vemonet/bio2rdf-website/fork).
 
 To contribute:
 
 1. Clone the repository 📥
 
 ```bash
-git clone https://github.com/MaastrichtU-IDS/into-the-graph.git
-cd into-the-graph
+git clone https://github.com/vemonet/bio2rdf-website.git
+cd bio2rdf-website
 ```
 
 2. Create a new branch from the `typescript-rewrite` branch and add your changes to this branch 🕊️
@@ -33,6 +33,6 @@ yarn dev
 ## Pull Request process
 
 1. Before sending a pull request make sure the project still work as expected with the new changes properly integrated 📝
-2. [Send a pull request](https://github.com/MaastrichtU-IDS/into-the-graph/compare) to the `typescript-rewrite` branch 📤
+2. [Send a pull request](https://github.com/vemonet/bio2rdf-website/compare) to the `typescript-rewrite` branch 📤
 3. Project contributors will review your change as soon as they can ✔️
 

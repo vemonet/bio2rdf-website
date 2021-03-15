@@ -1,13 +1,13 @@
 {
     "expo": {
-      "name": "Into the Graph",
-      "description": "A browser for SPARQL endpoints",
-      "slug": "into-the-graph",
+      "name": "Bio2RDF",
+      "description": "Linked data browser for Bio2RDF",
+      "slug": "Bio2RDF",
       "privacy": "public",
       "sdkVersion": "35.0.0",
       "platforms": ["web"],
       "version": "0.0.1",
-      "icon": "./assets/icon.png",
+      "icon": "./assets/bio2rdf.png",
       "orientation": "portrait",
       "packagerOpts": {
         "assetExts": ["html"]

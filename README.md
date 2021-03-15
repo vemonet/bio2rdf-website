@@ -1,6 +1,6 @@
 # Bio2RDF website
 
-[![Deploy to GitHub Pages](https://github.com/MaastrichtU-IDS/into-the-graph/workflows/Deploy%20website%20to%20GitHub%20Pages/badge.svg)](https://github.com/MaastrichtU-IDS/into-the-graph/actions?query=workflow%3A%22Deploy+website+to+GitHub+Pages%22) [![CodeQL analysis](https://github.com/MaastrichtU-IDS/into-the-graph/workflows/CodeQL%20analysis/badge.svg)](https://github.com/MaastrichtU-IDS/into-the-graph/actions?query=workflow%3A%22CodeQL+analysis%22) 
+[![Deploy to GitHub Pages](https://github.com/vemonet/bio2rdf-website/workflows/Deploy%20website%20to%20GitHub%20Pages/badge.svg)](https://github.com/vemonet/bio2rdf-website/actions?query=workflow%3A%22Deploy+website+to+GitHub+Pages%22) [![CodeQL analysis](https://github.com/vemonet/bio2rdf-website/workflows/CodeQL%20analysis/badge.svg)](https://github.com/vemonet/bio2rdf-website/actions?query=workflow%3A%22CodeQL+analysis%22) 
 
 [RDF](https://www.w3.org/RDF/) browser for Bio2RDF written in TypeScript, using React, deployed to GitHub Pages.
 
@@ -17,8 +17,8 @@ Requirements:  [npm](https://www.npmjs.com/get-npm) and [yarn](https://classic.y
 Clone the repository:
 
 ```bash
-git clone https://github.com/MaastrichtU-IDS/into-the-graph
-cd into-the-graph
+git clone https://github.com/vemonet/bio2rdf-website
+cd bio2rdf-website
 ```
 
 Install dependencies :inbox_tray:
@@ -43,7 +43,7 @@ yarn upgrade perfect-graph unitx-ui unitx
 
 # 🛩️ Run in production 
 
-> This website is automatically deployed by a [GitHub Actions worklow](https://github.com/MaastrichtU-IDS/into-the-graph/actions?query=workflow%3A%22Deploy+to+GitHub+Pages%22) to GitHub Pages at https://maastrichtu-ids.github.io/into-the-graph
+> This website is automatically deployed by a [GitHub Actions worklow](https://github.com/vemonet/bio2rdf-website/actions?query=workflow%3A%22Deploy+to+GitHub+Pages%22) to GitHub Pages at https://vemonet.github.io/bio2rdf-website
 
 You can build locally in `/web-build` folder and serve on [http://localhost:5000 :package:](http://localhost:5000)
 

@@ -58,6 +58,6 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d web-build"
   },
-  "homepage": "https://maastrichtu-ids.github.io/into-the-graph",
+  "homepage": "https://bio2rdf.org",
   "private": true
 }
