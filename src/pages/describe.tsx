@@ -120,16 +120,6 @@ export default function Describe() {
           BIND(` + uri_to_describe + ` AS ?graph)
         }
       } LIMIT ` + query_limit
-      // if (this.context.triplestore.graph_uri_resolution === "classes") {
-      //   // TODO: Add DISTINCT ? Might slow the query down in some cases
-      //   graphQuery = `SELECT * {
-      //     GRAPH ` + uri_to_describe + ` {
-      //       [] a ?object .
-      //       BIND("dummy subject" AS ?subject)
-      //       BIND("dummy predicate" AS ?predicate)
-      //     }
-      //   } LIMIT 1000`
-      // }
 
       describe_query = `SELECT DISTINCT ?subject ?predicate ?object ?graph WHERE {
         {

@@ -60,5 +60,6 @@ export default function LinkDescribe(props: any) {
     style={{textAlign: 'left', overflowWrap: 'break-word'}}>
       {props.uri}
     </Typography>
+
   )
 }

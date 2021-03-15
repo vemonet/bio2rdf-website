@@ -319,10 +319,7 @@ export default function Homepage() {
 
 
   }, [])  
-  // This useless array needs to be added for React to understand he needs to use the state inside...
-
-  // }, [solid_webid])
-  // Trying out the SOLID webId hook
+  // This array needs to be added for React to understand he needs to use the state inside
 
   const get_all_graphs_query = `SELECT DISTINCT ?graph WHERE { GRAPH ?graph {?s ?p ?o} }`;
 
@@ -408,9 +405,11 @@ export default function Homepage() {
               {/* Iterate Describe query results array */}
               {state.get_all_graphs_results.map((row: any, key: number) => {
                 // return <Tooltip title={displayDescription(row.name, row.description)} key={key}>
-                return <tr key={key}>
-                    <td><LinkDescribe variant='body2' uri={row.graph.value}/></td>
-                  </tr>
+                if (row.graph.value.startsWith('http')){
+                  return <tr key={key}>
+                      <td><LinkDescribe variant='body2' uri={row.graph.value}/></td>
+                    </tr>
+                }
                 {/* </Tooltip>; */}
               })}
             </tbody>
@@ -419,186 +418,187 @@ export default function Homepage() {
         </>)}
 
         {Object.keys(state.hcls_overview_results).length > 0 && (<>
-        <Typography variant="h5" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
-          Endpoint <b>descriptive metadata</b> (<a href={Config.sparql_endpoint} className={classes.link}>HCLS</a>)
-        </Typography>
-        <Paper elevation={4} className={classes.paperPadding}>
-          <table id='datatableHclsOverview' style={{ wordBreak: 'break-all' }}>
-            <thead>
-              <tr>
-                <th>Graph</th>
-                <th>Date generated</th>
-                <th># of triples</th>
-                <th># of entities</th>
-                <th># of properties</th>
-                <th># of classes</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* Iterate Describe query results array */}
-              {state.hcls_overview_results.map((row: any, key: number) => {
-                // return <Tooltip title={displayDescription(row.name, row.description)} key={key}>
-                return <tr key={key}>
-                    <td><LinkDescribe variant='body2' uri={row.graph.value}/></td>
-                    <td><Typography variant="body2">{displayTableCell(row.dateGenerated)}</Typography></td>
-                    <td><Typography variant="body2">{displayTableCell(row.statements)}</Typography></td>
-                    <td><Typography variant="body2">{displayTableCell(row.entities)}</Typography></td>
-                    <td><Typography variant="body2">{displayTableCell(row.properties)}</Typography></td>
-                    <td><Typography variant="body2">{displayTableCell(row.classes)}</Typography></td>
-                  </tr>
-                {/* </Tooltip>; */}
-              })}
-            </tbody>
-          </table>
-        </Paper>
+          <Typography variant="h5" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
+            Endpoint <b>descriptive metadata</b> (<a href={Config.sparql_endpoint} className={classes.link}>HCLS</a>)
+          </Typography>
+          <Paper elevation={4} className={classes.paperPadding}>
+            <table id='datatableHclsOverview' style={{ wordBreak: 'break-all' }}>
+              <thead>
+                <tr>
+                  <th>Graph</th>
+                  <th>Date generated</th>
+                  <th># of triples</th>
+                  <th># of entities</th>
+                  <th># of properties</th>
+                  <th># of classes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Iterate Describe query results array */}
+                {state.hcls_overview_results.map((row: any, key: number) => {
+                  // return <Tooltip title={displayDescription(row.name, row.description)} key={key}>
+                  return <tr key={key}>
+                      <td><LinkDescribe variant='body2' uri={row.graph.value}/></td>
+                      <td><Typography variant="body2">{displayTableCell(row.dateGenerated)}</Typography></td>
+                      <td><Typography variant="body2">{displayTableCell(row.statements)}</Typography></td>
+                      <td><Typography variant="body2">{displayTableCell(row.entities)}</Typography></td>
+                      <td><Typography variant="body2">{displayTableCell(row.properties)}</Typography></td>
+                      <td><Typography variant="body2">{displayTableCell(row.classes)}</Typography></td>
+                    </tr>
+                  {/* </Tooltip>; */}
+                })}
+              </tbody>
+            </table>
+          </Paper>
         </>)}
 
-        <Paper elevation={4} className={classes.paperPadding}>
-          {state.isLoading && (
-            <CircularProgress className={classes.loadSpinner} />
-          )}
+        {state.isLoading && (
+          <CircularProgress className={classes.loadSpinner} />
+        )}
 
-          {state.graph_data.nodes.length > 0 && (<>
-            <Typography variant="h5" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
-              <b>Entities-relations</b> metadata (<a href={Config.sparql_endpoint} className={classes.link}>HCLS</a>)
-            </Typography>
-            <Typography variant="body1" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
-              <a href='https://perfectgraph-5c619.web.app/' className={classes.link} target='_blank' rel="noopener noreferrer">
-                <b>Perfect Graph</b>
-              </a> visualization
-            </Typography>
-            <Paper elevation={4} className={classes.paperPadding}>
-              <ApplicationProvider>
-                <Graph
-                  style={{ width: '100%', height: 800 }}
-                  // @ts-ignore
-                  config={{ layout: Graph.Layouts.euler }}
-                  nodes={state.graph_data.nodes}
-                  edges={state.graph_data.edges}
-                  // nodes={[
-                  //   {
-                  //     id: '1',
-                  //     position: { x: 10, y: 10 },
-                  //     data: { city: 'Amsterdam', color: 'red' },
-                  //   },
-                  //   {
-                  //     id: '2',
-                  //     position: { x: 300, y: 10 },
-                  //     data: { city: 'Maastricht', color: 'blue' },
-                  //   },
-                  // ]}
-                  // edges={[
-                  //   { id: '51', source: '1', target: '2' },
-                  // ]}
-                  // drawLine={({ graphics, to, from }) => {
-                  //   drawLine({
-                  //     graphics,
-                  //     to,
-                  //     from,
-                  //     directed: true
-                  //     // type: 'bezier'
-                  //   })
-                  // }} 
-                  renderNode={({ item: { data } }: any) => (
-                    <Graph.View
-                      style={{ width: 100, height: 100, backgroundColor: data.color }}
-                    >
-                      <Graph.Text style={{ fontSize: 16 }}>
-                        {data.uri.substring(data.uri.lastIndexOf('/') + 1)}
-                      </Graph.Text>
-                      {/* <LinkDescribe variant='body2' uri={data.uri}/> */}
-                    </Graph.View>
-                  )}
+        {state.graph_data.nodes.length > 0 && (
+          <Paper elevation={4} className={classes.paperPadding}>
+            {state.graph_data.nodes.length > 0 && (<>
+              <Typography variant="h5" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
+                <b>Entities-relations</b> metadata (<a href={Config.sparql_endpoint} className={classes.link}>HCLS</a>)
+              </Typography>
+              <Typography variant="body1" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
+                <a href='https://perfectgraph-5c619.web.app/' className={classes.link} target='_blank' rel="noopener noreferrer">
+                  <b>Perfect Graph</b>
+                </a> visualization
+              </Typography>
+              <Paper elevation={4} className={classes.paperPadding}>
+                <ApplicationProvider>
+                  <Graph
+                    style={{ width: '100%', height: 800 }}
+                    // @ts-ignore
+                    config={{ layout: Graph.Layouts.euler }}
+                    nodes={state.graph_data.nodes}
+                    edges={state.graph_data.edges}
+                    // nodes={[
+                    //   {
+                    //     id: '1',
+                    //     position: { x: 10, y: 10 },
+                    //     data: { city: 'Amsterdam', color: 'red' },
+                    //   },
+                    //   {
+                    //     id: '2',
+                    //     position: { x: 300, y: 10 },
+                    //     data: { city: 'Maastricht', color: 'blue' },
+                    //   },
+                    // ]}
+                    // edges={[
+                    //   { id: '51', source: '1', target: '2' },
+                    // ]}
+                    // drawLine={({ graphics, to, from }) => {
+                    //   drawLine({
+                    //     graphics,
+                    //     to,
+                    //     from,
+                    //     directed: true
+                    //     // type: 'bezier'
+                    //   })
+                    // }} 
+                    renderNode={({ item: { data } }: any) => (
+                      <Graph.View
+                        style={{ width: 100, height: 100, backgroundColor: data.color }}
+                      >
+                        <Graph.Text style={{ fontSize: 16 }}>
+                          {data.uri.substring(data.uri.lastIndexOf('/') + 1)}
+                        </Graph.Text>
+                        {/* <LinkDescribe variant='body2' uri={data.uri}/> */}
+                      </Graph.View>
+                    )}
+                  />
+                </ApplicationProvider>
+              </Paper>
+            </> )}
+
+            {state.graph_data.nodes.length > 0 && (<>
+              <Typography variant="body1" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
+                <a href='https://github.com/plotly/react-cytoscapejs' className={classes.link} target='_blank' rel="noopener noreferrer">
+                  <b>Cytoscape JS</b>
+                </a> visualization
+              </Typography>
+              <Paper elevation={4} className={classes.paperPadding} style={{ height: '80vh', textAlign: 'left' }}>
+                <CytoscapeComponent elements={state.cytoscape_elements} layout={cytoscape_layout}
+                  style={{ width: '100%', height: '100%',  }} 
+                  stylesheet={[
+                    {
+                      selector: 'edge',
+                      style: {
+                        'label': 'data(label)',
+                        'color': '#546e7a', // Grey
+                        'text-wrap': 'wrap',
+                        'font-size': '18px',
+                        'text-opacity': 0.9,
+                        'target-arrow-shape': 'triangle',
+                        // 'line-color': '#ccc',
+                        // 'target-arrow-color': '#ccc',
+                        // Control multi edge on 2 nodes:
+                        'curve-style': 'bezier',
+                        'control-point-step-size': 300,
+                      }
+                    },
+                    {
+                      selector: 'node',
+                      style: {
+                        'label': 'data(label)',
+                        'text-wrap': 'wrap',
+                        'font-size': '30px',
+                        // width: 15,
+                        // 'width': 'data(size)',
+                        // 'height': 'data(size)',
+                        // shape: 'rectangle'
+                      }
+                    }
+                  ]}
                 />
-              </ApplicationProvider>
-            </Paper>
-          </> )}
+              </Paper>
+            </> )}
 
-          {state.graph_data.nodes.length > 0 && (<>
-            <Typography variant="body1" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
-              <a href='https://github.com/plotly/react-cytoscapejs' className={classes.link} target='_blank' rel="noopener noreferrer">
-                <b>Cytoscape JS</b>
-              </a> visualization
-            </Typography>
-            <Paper elevation={4} className={classes.paperPadding} style={{ height: '80vh', textAlign: 'left' }}>
-              <CytoscapeComponent elements={state.cytoscape_elements} layout={cytoscape_layout}
-                style={{ width: '100%', height: '100%',  }} 
-                stylesheet={[
-                  {
-                    selector: 'edge',
-                    style: {
-                      'label': 'data(label)',
-                      'color': '#546e7a', // Grey
-                      'text-wrap': 'wrap',
-                      'font-size': '18px',
-                      'text-opacity': 0.9,
-                      'target-arrow-shape': 'triangle',
-                      // 'line-color': '#ccc',
-                      // 'target-arrow-color': '#ccc',
-                      // Control multi edge on 2 nodes:
-                      'curve-style': 'bezier',
-                      'control-point-step-size': 300,
-                    }
-                  },
-                  {
-                    selector: 'node',
-                    style: {
-                      'label': 'data(label)',
-                      'text-wrap': 'wrap',
-                      'font-size': '30px',
-                      // width: 15,
-                      // 'width': 'data(size)',
-                      // 'height': 'data(size)',
-                      // shape: 'rectangle'
-                    }
-                  }
-                ]}
-              />
-            </Paper>
-          </> )}
+            {Object.keys(state.entities_relations_overview_results).length > 0 && (<>
+              <Typography variant="body1" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
+                <a href='https://datatables.net' className={classes.link} target='_blank' rel="noopener noreferrer">
+                  Datatable
+                </a>
+              </Typography>
+              <Paper elevation={4} className={classes.paperPadding}>
+                <table id='datatableEntitiesRelationOverview' style={{ wordBreak: 'break-all' }}>
+                  <thead>
+                    <tr>
+                      <th>Graph</th>
+                      <th># of instance of subject</th>
+                      <th>Subject class</th>
+                      <th>Have relation</th>
+                      <th>With Object class</th>
+                      <th># of instance of object</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {/* Iterate Describe query results array */}
+                    {state.entities_relations_overview_results.map((row: any, key: number) => {
+                      return <tr key={key}>
+                          <td><LinkDescribe uri={row.graph.value} variant='body2'/></td>
+                          <td><Typography variant="body2">{displayTableCell(row.subjectCount)}</Typography></td>
+                          <td><LinkDescribe uri={row.subject.value} variant='body2'/></td>
+                          <td><LinkDescribe uri={row.predicate.value} variant='body2'/></td>
+                          {row.object && (
+                            <td><LinkDescribe uri={row.object.value} variant='body2'/></td>
+                          )}
+                          {!row.object && (
+                            <td><Typography variant="body2">Not found</Typography></td>
+                          )}
+                          <td><Typography variant="body2">{displayTableCell(row.objectCount)}</Typography></td>
+                        </tr>
+                    })}
+                  </tbody>
+                </table>
+              </Paper>
+            </>)}
 
-          {Object.keys(state.entities_relations_overview_results).length > 0 && (<>
-            <Typography variant="body1" className={classes.margin} style={{ marginTop: theme.spacing(6) }}>
-              <a href='https://datatables.net' className={classes.link} target='_blank' rel="noopener noreferrer">
-                Datatable
-              </a>
-            </Typography>
-            <Paper elevation={4} className={classes.paperPadding}>
-              <table id='datatableEntitiesRelationOverview' style={{ wordBreak: 'break-all' }}>
-                <thead>
-                  <tr>
-                    <th>Graph</th>
-                    <th># of instance of subject</th>
-                    <th>Subject class</th>
-                    <th>Have relation</th>
-                    <th>With Object class</th>
-                    <th># of instance of object</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {/* Iterate Describe query results array */}
-                  {state.entities_relations_overview_results.map((row: any, key: number) => {
-                    return <tr key={key}>
-                        <td><LinkDescribe uri={row.graph.value} variant='body2'/></td>
-                        <td><Typography variant="body2">{displayTableCell(row.subjectCount)}</Typography></td>
-                        <td><LinkDescribe uri={row.subject.value} variant='body2'/></td>
-                        <td><LinkDescribe uri={row.predicate.value} variant='body2'/></td>
-                        {row.object && (
-                          <td><LinkDescribe uri={row.object.value} variant='body2'/></td>
-                        )}
-                        {!row.object && (
-                          <td><Typography variant="body2">Not found</Typography></td>
-                        )}
-                        <td><Typography variant="body2">{displayTableCell(row.objectCount)}</Typography></td>
-                      </tr>
-                  })}
-                </tbody>
-              </table>
-            </Paper>
-          </>)}
-
-        </Paper>
-
+          </Paper>
+        )}
     </Container>
   )
 
