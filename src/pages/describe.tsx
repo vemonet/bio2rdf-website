@@ -169,56 +169,13 @@ export default function Describe() {
       search_query = configState.search_query;
     }
     if (!search_query) {
-      // Default search query, if no query in localStorage
+      // Virtuoso indexed search query
       search_query = `SELECT ?foundUri ?foundLabel WHERE {
-        ?foundUri ?p ?foundLabel .
-        VALUES ?p {<http://www.w3.org/2000/01/rdf-schema#label> <https://w3id.org/biolink/vocab/name>} .
-        FILTER(isLiteral(?foundLabel))
-        FILTER contains(?foundLabel, "$TEXT_TO_SEARCH")
-        } LIMIT 5`.replace('$TEXT_TO_SEARCH', text_to_search)
+        ?foundUri <http://www.w3.org/2000/01/rdf-schema#label> ?foundLabel . 
+        ?foundLabel bif:contains '$TEXT_TO_SEARCH' . 
+      } LIMIT 100`.replace('$TEXT_TO_SEARCH', text_to_search)
     }
-
-    // if (text_to_search === "") {
-    //   // If no text provided, we use a default search query to get interesting concepts 
-    //   search_query = `SELECT ?foundUri ?foundLabel WHERE {
-    //     ?foundUri a ?type ; ?p ?foundLabel .
-    //     VALUES ?p {<http://www.w3.org/2000/01/rdf-schema#label> <https://w3id.org/biolink/vocab/name>} .
-    //     FILTER(isLiteral(?foundLabel))
-    //     FILTER(isIRI(?foundUri))
-    //     } LIMIT 20`
-
-    //   // A custom default query can be set in settings.json
-    //   // let defaultSearchQuery = Config.default_search_query;
-    //   // if (defaultSearchQuery) {
-    //   //   searchQuery = defaultSearchQuery;
-    //   // } else {
-    //   //   // If no custom default_query defined in settings.json
-    //   //   searchQuery = `SELECT ?foundUri ?foundLabel WHERE {
-    //   //     ?foundUri a ?type ; ?p ?foundLabel .
-    //   //     VALUES ?p {<http://www.w3.org/2000/01/rdf-schema#label> <https://w3id.org/biolink/vocab/name>} .
-    //   //     FILTER(isLiteral(?foundLabel))
-    //   //     FILTER(isIRI(?foundUri))
-    //   //     } LIMIT 20`
-    //   // }
-    // // } else if (search_query) {
-    // //   // If defined in settings.json
-    // //   // Results are provided through ?foundUri and ?foundLabel
-    // //   // Use $TEXT_TO_SEARCH as search variable to replace
-    // //   searchQuery = searchQuery.replace('$TEXT_TO_SEARCH', text_to_search)
-    // }
-    // console.log('search_query generated');
-    // console.log(search_query);
     return encodeURIComponent(search_query);
-  }
-
-  function convertStringToNumber(string_to_convert: string) {
-    let hash = 0, i, chr;
-    for (i = 0; i < string_to_convert.length; i++) {
-      chr   = string_to_convert.charCodeAt(i);
-      hash  = ((hash << 5) - hash) + chr;
-      hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
   }
 
   // Run on start of the page
@@ -243,27 +200,13 @@ export default function Describe() {
       }
     }
 
-    // console.log('context');
-    // console.log(context);
-    // if (!describe_endpoint && context.describe_endpoint) {
-    //   // Get endpoint from react Context
-    //   describe_endpoint = context.describe_endpoint;
-    // }
-
     // TODO: handle default value somewhere else?
     if (!describe_uri) {
-      describe_uri = 'https://identifiers.org/drugbank:DB00002';
-      // describe_uri = 'http://bio2rdf.org/clinicaltrials:NCT00209495';
-    }
-    if (!describe_endpoint) {
-      describe_endpoint = 'https://graphdb.dumontierlab.com/repositories/ncats-red-kg';
-      // describe_endpoint = 'https://bio2rdf.org/sparql';
+      describe_uri = '';
     }
 
     updateState({describe_uri: describe_uri})
     updateState({describe_endpoint: describe_endpoint})
-    // TODO: Context not propagating properly, using cookie localStorage instead
-    // setContext(describe_endpoint)
 
     if(/^(?:node[0-9]+)|((https?|ftp):.*)$/.test(describe_uri)) {
       // If URI provided
@@ -564,8 +507,6 @@ export default function Describe() {
           />
         </Paper>
       </> )}
-
- 
     
     </Container>
   )

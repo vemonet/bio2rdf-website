@@ -63,7 +63,7 @@ const useStyles = makeStyles(theme => ({
   paperQuery: {
     padding: theme.spacing(2, 2),
     margin: theme.spacing(2, 0),
-    "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
+    "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
   },
   cardSubtitle: {
     fontSize: 14,
@@ -80,7 +80,6 @@ export default function Homepage() {
   
   const [state, setState] = React.useState({
     isLoading: true,
-    // describe_endpoint: '',
     sparql_queries: [],
     yasgui: {},
     search: '',
@@ -89,14 +88,10 @@ export default function Homepage() {
     entities_relations_overview_results: [],
     graph_data: {nodes: [], edges: []},
     cytoscape_elements: [],
-    repositories_hash: {},
-    category_pie: {}
   });
 
-  const stateRef = React.useRef(state);
-
   // Avoid conflict when async calls
-  // Can be done with another lib (cf. Turgay)
+  const stateRef = React.useRef(state);
   const updateState = React.useCallback((update) => {
     stateRef.current = {...stateRef.current, ...update};
     setState(stateRef.current);
