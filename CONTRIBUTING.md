@@ -13,10 +13,10 @@ git clone https://github.com/vemonet/bio2rdf-website.git
 cd bio2rdf-website
 ```
 
-2. Create a new branch from the `typescript-rewrite` branch and add your changes to this branch 🕊️
+2. Create a new branch from the `main` branch and add your changes to this branch 🕊️
 
 ```bash
-git checkout typescript-rewrite
+git checkout main
 git checkout -b new-branch
 ```
 
@@ -28,11 +28,11 @@ yarn dev
 ```
 
 4. Add your change in this branch 📝
-5. Send a pull request to the `typescript-rewrite` branch when your changes are done 📤
+5. Send a pull request to the `main` branch when your changes are done 📤
 
 ## Pull Request process
 
 1. Before sending a pull request make sure the project still work as expected with the new changes properly integrated 📝
-2. [Send a pull request](https://github.com/vemonet/bio2rdf-website/compare) to the `typescript-rewrite` branch 📤
+2. [Send a pull request](https://github.com/vemonet/bio2rdf-website/compare) to the `main` branch 📤
 3. Project contributors will review your change as soon as they can ✔️
 
