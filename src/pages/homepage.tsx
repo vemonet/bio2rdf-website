@@ -136,6 +136,7 @@ export default function Homepage() {
               query_summary = line.replace('#+ summary: ', '')
             }
             if (line.startsWith('#+ ')) {
+              // Handle params line
               query_no_comments = query_no_comments.replace(line + '\n', '')
               query_params.push(line.replace('#+ ', ''))
             }
@@ -143,8 +144,8 @@ export default function Homepage() {
           sparql_queries.push({
             'summary': query_summary,
             'params': query_params.join('\n'),
-            'query': query_no_comments,
-            'full_query': query_string,
+            'query': query_no_comments.trim(),
+            'full_query': query_string.trim(),
             // 'tags': query_summary
           })
         })
@@ -332,71 +333,6 @@ export default function Homepage() {
 
   // TODO: For Bio2RDF documented queries fails
   // https://github.com/bio2rdf/bio2rdf-scripts/wiki/Bio2RDF-Dataset-Summary-Statistics
-
-
-  const hcls_overview_query = `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-  PREFIX dct: <http://purl.org/dc/terms/>
-  PREFIX dctypes: <http://purl.org/dc/dcmitype/>
-  PREFIX dcat: <http://www.w3.org/ns/dcat#>
-  PREFIX void: <http://rdfs.org/ns/void#>
-  PREFIX dc: <http://purl.org/dc/elements/1.1/>
-  PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-  SELECT DISTINCT ?graph ?name ?description ?homepage ?dateGenerated ?statements ?entities ?properties ?classes
-  WHERE {
-    GRAPH ?metadataGraph {
-      ?graph a void:Dataset .
-      OPTIONAL {
-        ?dataset a dctypes:Dataset ;
-          dct:title ?name ;
-          dct:description ?description ;
-          foaf:page ?homepage .
-        ?version dct:isVersionOf ?dataset ;
-          dcat:distribution ?graph .
-      }
-      OPTIONAL {
-        ?graph void:triples ?statements ;
-          void:entities ?entities ;
-          void:properties ?properties .
-      }
-      OPTIONAL {
-        ?graph dct:created ?dateGenerated .
-      }
-      OPTIONAL {
-        ?graph void:classPartition [
-          void:class rdfs:Class ;
-          void:distinctSubjects ?classes
-        ] .
-      }
-    }
-  } ORDER BY DESC(?statements)`;
-
-  const entities_relations_query = `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-  PREFIX dct: <http://purl.org/dc/terms/>
-  PREFIX bl: <http://w3id.org/biolink/vocab/>
-  PREFIX dctypes: <http://purl.org/dc/dcmitype/>
-  PREFIX idot: <http://identifiers.org/idot/>
-  PREFIX dcat: <http://www.w3.org/ns/dcat#>
-  PREFIX void: <http://rdfs.org/ns/void#>
-  PREFIX dc: <http://purl.org/dc/elements/1.1/>
-  PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-  PREFIX void-ext: <http://ldf.fi/void-ext#>
-  SELECT DISTINCT ?metadataGraph ?graph ?subjectCount ?subject ?predicate ?objectCount ?object
-  WHERE {
-    GRAPH ?metadataGraph {
-      # ?graph a void:Dataset .
-      ?graph void:propertyPartition [
-        void:property ?predicate ;
-        void:classPartition [
-          void:class ?subject ;
-          void:distinctSubjects ?subjectCount ;
-        ];
-        void-ext:objectClassPartition [
-        void:class ?object ;
-        void:distinctObjects ?objectCount ;
-        ]
-      ] .
-      }
-    } ORDER BY DESC(?subjectCount)`;
 
   // Change Cytoscape layout
   // https://js.cytoscape.org/#layouts
@@ -673,3 +609,66 @@ export default function Homepage() {
 
 }
 
+const hcls_overview_query = `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dctypes: <http://purl.org/dc/dcmitype/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT DISTINCT ?graph ?name ?description ?homepage ?dateGenerated ?statements ?entities ?properties ?classes
+WHERE {
+  GRAPH ?metadataGraph {
+    ?graph a void:Dataset .
+    OPTIONAL {
+      ?dataset a dctypes:Dataset ;
+        dct:title ?name ;
+        dct:description ?description ;
+        foaf:page ?homepage .
+      ?version dct:isVersionOf ?dataset ;
+        dcat:distribution ?graph .
+    }
+    OPTIONAL {
+      ?graph void:triples ?statements ;
+        void:entities ?entities ;
+        void:properties ?properties .
+    }
+    OPTIONAL {
+      ?graph dct:created ?dateGenerated .
+    }
+    OPTIONAL {
+      ?graph void:classPartition [
+        void:class rdfs:Class ;
+        void:distinctSubjects ?classes
+      ] .
+    }
+  }
+} ORDER BY DESC(?statements)`;
+
+const entities_relations_query = `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX bl: <http://w3id.org/biolink/vocab/>
+PREFIX dctypes: <http://purl.org/dc/dcmitype/>
+PREFIX idot: <http://identifiers.org/idot/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX void-ext: <http://ldf.fi/void-ext#>
+SELECT DISTINCT ?metadataGraph ?graph ?subjectCount ?subject ?predicate ?objectCount ?object
+WHERE {
+  GRAPH ?metadataGraph {
+    # ?graph a void:Dataset .
+    ?graph void:propertyPartition [
+      void:property ?predicate ;
+      void:classPartition [
+        void:class ?subject ;
+        void:distinctSubjects ?subjectCount ;
+      ];
+      void-ext:objectClassPartition [
+      void:class ?object ;
+      void:distinctObjects ?objectCount ;
+      ]
+    ] .
+    }
+  } ORDER BY DESC(?subjectCount)`;
