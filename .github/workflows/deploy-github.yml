@@ -16,6 +16,7 @@ jobs:
 
     - name: Install dependencies and build
       run: |
+        ./prepare_queries.sh
         git config --global user.email "vincent.emonet@maastrichtuniversity.nl"
         git config --global user.name "Vincent Emonet"
         yarn install

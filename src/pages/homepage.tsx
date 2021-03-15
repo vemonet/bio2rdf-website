@@ -384,7 +384,7 @@ export default function Homepage() {
       </Typography>
       {state.sparql_queries.map((query: any, key: number) => {
         // return <Tooltip title={displayDescription(row.name, row.description)} key={key}>
-        return <div onClick={ () => { loadSparqlQuery(query.query) }}>
+        return <div key={key} onClick={ () => { loadSparqlQuery(query.query) }}>
             <Paper elevation={2} className={classes.paperQuery} style={{ cursor: 'pointer', textAlign: 'center' }}>
               {/* <Button variant="contained" color="primary" onClick={ () => { console.log('test!!') }}>
                 Run query
