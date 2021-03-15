@@ -1,7 +1,7 @@
 {
   "files": {
-    "app.js": "/bio2rdf-website/static/js/app.d3ed38bb.chunk.js",
-    "app.js.map": "/bio2rdf-website/static/js/app.d3ed38bb.chunk.js.map",
+    "app.js": "/bio2rdf-website/static/js/app.5148efad.chunk.js",
+    "app.js.map": "/bio2rdf-website/static/js/app.5148efad.chunk.js.map",
     "runtime~app.js": "/bio2rdf-website/static/js/runtime~app.e43caa93.js",
     "runtime~app.js.map": "/bio2rdf-website/static/js/runtime~app.e43caa93.js.map",
     "static/js/2.7facd3a1.chunk.js": "/bio2rdf-website/static/js/2.7facd3a1.chunk.js",
@@ -14,11 +14,11 @@
     "manifest.json": "/bio2rdf-website/manifest.json",
     "serve.json": "/bio2rdf-website/serve.json",
     "static/js/2.7facd3a1.chunk.js.LICENSE.txt": "/bio2rdf-website/static/js/2.7facd3a1.chunk.js.LICENSE.txt",
-    "static/media/queries.rq": "/bio2rdf-website/static/media/queries.2c04ca13.rq"
+    "static/media/queries.rq": "/bio2rdf-website/static/media/queries.f53b524b.rq"
   },
   "entrypoints": [
     "static/js/runtime~app.e43caa93.js",
     "static/js/2.7facd3a1.chunk.js",
-    "static/js/app.d3ed38bb.chunk.js"
+    "static/js/app.5148efad.chunk.js"
   ]
 }
