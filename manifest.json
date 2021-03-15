@@ -1,24 +1,24 @@
 {
-  "description": "A browser for SPARQL endpoints",
+  "description": "Linked data browser for Bio2RDF",
   "display": "standalone",
   "lang": "en",
-  "name": "Into the Graph",
-  "short_name": "Into the Graph",
+  "name": "Bio2RDF",
+  "short_name": "Bio2RDF",
   "start_url": "/?utm_source=web_app_manifest",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/into-the-graph/pwa/chrome-icon/chrome-icon-144.png",
+      "src": "/pwa/chrome-icon/chrome-icon-144.png",
       "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "/into-the-graph/pwa/chrome-icon/chrome-icon-192.png",
+      "src": "/pwa/chrome-icon/chrome-icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/into-the-graph/pwa/chrome-icon/chrome-icon-512.png",
+      "src": "/pwa/chrome-icon/chrome-icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
