@@ -1,1 +1,1 @@
-"serviceWorker"in navigator&&window.addEventListener("load",(function(){navigator.serviceWorker.register("/expo-service-worker.js",{scope:"/"}).then((function(e){})).catch((function(e){console.info("Failed to register service-worker",e)}))}));
+"serviceWorker"in navigator&&window.addEventListener("load",(function(){navigator.serviceWorker.register("/bio2rdf-website/expo-service-worker.js",{scope:"/bio2rdf-website/"}).then((function(e){})).catch((function(e){console.info("Failed to register service-worker",e)}))}));
