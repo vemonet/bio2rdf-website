@@ -10,6 +10,10 @@
   text-align: center;
 }
 
+.yasgui .autocompleteWrapper {
+  display: none !important;
+}
+
 /* a {
   text-transform: none;
   text-decoration: none
